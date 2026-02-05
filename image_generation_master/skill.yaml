@@ -1,0 +1,121 @@
+name: image_generation_master
+version: 1.0.0
+description: |
+  图像生成大师 - 支持多个第三方供应商的统一图像生成能力
+  
+  特性：
+  - 支持柏拉图和 GrsAI 两个供应商
+  - 自动兼容 size 和 aspect_ratio 参数
+  - 智能路由：根据模型名称自动选择供应商
+  - 统一的输入输出接口
+  
+  支持的模型：
+  柏拉图: nano-banana, flux, doubao-seedream, gpt-4o-image 等
+  GrsAI: nano-banana, nano-banana-pro, sora-image 等
+
+author: OpenClaw
+
+inputs:
+  prompt:
+    type: string
+    required: true
+    description: 图片生成提示词，描述想要生成的图片内容
+    
+  model:
+    type: string
+    required: false
+    description: |
+      模型名称，如 'nano-banana', 'flux-pro', 'gpt-image-1'
+      如果不指定，将使用各供应商的默认模型
+    
+  provider:
+    type: string
+    required: false
+    description: |
+      供应商名称：'blt'（柏拉图）或 'grsai'
+      默认为 'auto'，根据模型名称自动选择
+    
+  size:
+    type: string
+    required: false
+    description: |
+      图片尺寸，如 '1024x1024', '1366x768'
+      与 aspect_ratio 自动兼容
+    
+  aspect_ratio:
+    type: string
+    required: false
+    description: |
+      宽高比，如 '16:9', '1:1', '9:16'
+      与 size 自动兼容
+    
+  n:
+    type: integer
+    required: false
+    default: 1
+    description: 生成图片的数量
+    
+  image_urls:
+    type: array
+    required: false
+    description: 参考图片 URL 列表（用于图生图）
+
+outputs:
+  success:
+    type: boolean
+    description: 是否成功生成图片
+    
+  images:
+    type: array
+    items:
+      type: string
+    description: 生成的图片 URL 列表
+    
+  provider:
+    type: string
+    description: 实际使用的供应商名称
+    
+  model:
+    type: string
+    description: 实际使用的模型名称
+    
+  message:
+    type: string
+    description: 错误信息（如果失败）
+
+examples:
+  - description: 使用默认模型生成图片
+    inputs:
+      prompt: "一只可爱的橘猫坐在窗台上，阳光透过窗户洒在它身上"
+      size: "1024x1024"
+      
+  - description: 指定柏拉图平台的 nano-banana 模型
+    inputs:
+      prompt: "未来科技城市，赛博朋克风格"
+      provider: "blt"
+      model: "nano-banana"
+      aspect_ratio: "16:9"
+      
+  - description: 使用 GrsAI 平台生成宽屏图片
+    inputs:
+      prompt: "壮丽的山川河流，水墨画风格"
+      provider: "grsai"
+      model: "nano-banana-pro"
+      size: "1366x768"
+      
+  - description: 自动选择供应商
+    inputs:
+      prompt: "抽象艺术画作，现代风格"
+      model: "flux-pro"
+      n: 2
+
+environment:
+  BLT_API_KEY:
+    type: string
+    required: false
+    description: 柏拉图平台 API 密钥（使用 blt 供应商时必需）
+    
+  GRSAI_API_KEY:
+    type: string
+    required: false
+    description: GrsAI 平台 API 密钥（使用 grsai 供应商时必需）

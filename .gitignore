@@ -1,0 +1,16 @@
+/.idea/
+/.env
+# Log files
+*.log
+downloads/*
+outputs/*
+output/*
+./venv/
+__pycache__/
+.vscode/
+.claude/
+logs/
+docker-compose.yml
+CLAUDE.md
+todo.md
+config.yaml

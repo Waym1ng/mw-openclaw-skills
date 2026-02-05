@@ -1,0 +1,29 @@
+# 图像生成大师配置示例
+# 复制此文件为 config.yaml 并填入实际的 API 密钥
+
+# 柏拉图平台配置
+blt:
+  # API 密钥（从 https://api.bltcy.ai 获取）
+  api_key: "your-blt-api-key-here"
+  # API 基础 URL（通常不需要修改）
+  base_url: "https://api.bltcy.ai"
+
+# GrsAI 平台配置
+grsai:
+  # API 密钥（从 https://grsaiapi.com 获取）
+  api_key: "your-grsai-api-key-here"
+  # API 基础 URL（通常不需要修改）
+  base_url: "https://grsaiapi.com"
+
+# 默认配置
+defaults:
+  # 默认供应商（auto/blt/grsai）
+  provider: "auto"
+  # 默认模型
+  model: "nano-banana"
+  # 默认图片尺寸
+  size: "1024x1024"
+  # 默认生成数量
+  n: 1
+  # 请求超时时间（秒）
+  timeout: 600
