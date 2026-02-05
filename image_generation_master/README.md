@@ -65,7 +65,9 @@ defaults:
 
 ## 使用方法
 
-### 基本用法
+### 方式 1: Python 代码
+
+基本用法：
 
 ```python
 import asyncio
@@ -83,6 +85,32 @@ async def generate_image():
 
 asyncio.run(generate_image())
 ```
+
+### 方式 2: Shell 脚本
+
+对于快速测试或命令行使用，可以使用提供的 shell 脚本：
+
+```bash
+# 赋予执行权限（首次使用）
+chmod +x image_generation_master/generate.sh
+
+# 最简单用法
+./image_generation_master/generate.sh "一只可爱的橘猫坐在窗台上"
+
+# 指定参数
+./image_generation_master/generate.sh "赛博朋克城市" --model flux-pro --size 1024x1024
+
+# 宽屏
+./image_generation_master/generate.sh "风景画" --aspect-ratio 16:9
+
+# 生成多张
+./image_generation_master/generate.sh "美丽的风景" --n 2
+
+# 查看帮助
+./image_generation_master/generate.sh --help
+```
+
+Shell 脚本以 JSON 格式输出结果，包含生成的图片 URL、使用的供应商和模型等信息。
 
 ### 指定供应商和模型
 

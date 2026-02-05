@@ -7,7 +7,16 @@ description: |
 
   **支持功能**: 文生图、图生图（参考图片）、指定尺寸/宽高比、选择模型/供应商、生成多张图片。
 
-  **常见触发**: "画一个美女"、"生成风景照"、"创建logo"、"改成动漫风格"（附图）、"用flux模型生成"。
+  **推荐调用方式**: Shell 脚本（推荐）或 Python 代码
+  
+  Shell 调用示例:
+  - 基本用法: `./image_generation_master/generate.sh "提示词"`
+  - 指定参数: `./image_generation_master/generate.sh "提示词" --model nano-banana --size 1024x1024`
+  - 宽屏图片: `./image_generation_master/generate.sh "提示词" --aspect-ratio 16:9`
+  - 生成多张: `./image_generation_master/generate.sh "提示词" --n 2`
+  - 查看帮助: `./image_generation_master/generate.sh --help`
+
+  **常见触发**: "画一个美女"、"生成风景照"、"创建logo"、"改成动漫风格"（附图）、"用banana模型生成"。
 ---
 
 # Image Generation Master
@@ -21,9 +30,11 @@ description: |
 - "用AI生成..." / "创建图片..."
 - 附上图片说"改成xxx风格"（图生图）
 
-## 最简用法
+## 使用方式
 
-只描述想要的图片：
+### 方式 1: Python 代码调用
+
+最简用法 - 只描述想要的图片：
 
 ```python
 from image_generation_master import run
@@ -31,6 +42,21 @@ from image_generation_master import run
 result = await run({
     "prompt": "一只可爱的橘猫坐在窗台上"
 })
+```
+
+### 方式 2: Shell 脚本调用
+
+对于非 Python 环境或快速测试，可以使用提供的 shell 脚本：
+
+```bash
+# 赋予执行权限（首次使用）
+chmod +x image_generation_master/generate.sh
+
+# 最简单用法
+./image_generation_master/generate.sh "一只可爱的橘猫坐在窗台上"
+
+# 查看帮助
+./image_generation_master/generate.sh --help
 ```
 
 ## 常见参数组合
@@ -115,6 +141,65 @@ result = await run({
     "image_urls": ["https://example.com/ref.jpg"],
     "model": "nano-banana"
 })
+```
+
+## Shell 脚本详细用法
+
+Shell 脚本支持所有参数，适合快速测试和命令行使用：
+
+### 最简单用法
+```bash
+./image_generation_master/generate.sh "一只可爱的橘猫坐在窗台上"
+```
+
+### 指定模型和尺寸
+```bash
+./image_generation_master/generate.sh "赛博朋克风格城市" --model flux-pro --size 1024x1024
+```
+
+### 竖屏/宽屏
+```bash
+# 竖屏
+./image_generation_master/generate.sh "性感的少女" --aspect-ratio 9:16
+
+# 宽屏
+./image_generation_master/generate.sh "壮丽的山川河流" --aspect-ratio 16:9
+```
+
+### 生成多张
+```bash
+./image_generation_master/generate.sh "美丽的风景" --n 2
+```
+
+### 图生图
+```bash
+./image_generation_master/generate.sh "改成动漫风格" --image-url "https://example.com/ref.jpg"
+```
+
+### 完整参数示例
+```bash
+./image_generation_master/generate.sh "高质量肖像画" \
+  --model nano-banana \
+  --provider blt \
+  --size 1024x1024 \
+  --n 1
+```
+
+### 输出格式
+脚本以 JSON 格式输出结果：
+```json
+{
+  "success": true,
+  "images": ["https://example.com/generated.jpg"],
+  "provider": "blt",
+  "model": "nano-banana",
+  "message": null
+}
+```
+
+### 查看帮助
+```bash
+./image_generation_master/generate.sh --help
 ```
 
 ## 智能路由
